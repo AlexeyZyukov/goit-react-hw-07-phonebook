@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import contactsActions from '../../redux/contacts-actions';
+import contactsActions from '../../redux/contacts/contacts-actions';
 import styles from './form.module.css';
 
 function Form({ onSubmit }) {

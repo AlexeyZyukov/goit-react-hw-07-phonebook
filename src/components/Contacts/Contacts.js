@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { filterContacts } from '../../redux/contacts-selectors';
-import contactsAction from '../../redux/contacts-actions';
+import { filterContacts } from '../../redux/contacts/contacts-selectors';
+import contactsAction from '../../redux/contacts/contacts-actions';
 import styles from './contacts.module.css';
 
 export default function Contacts() {
