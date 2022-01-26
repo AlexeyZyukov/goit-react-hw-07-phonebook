@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import Form from './components/Form/Form';
 import Filter from './components/Filter/Filter';
 import Contacts from './components/Contacts/Contacts';
