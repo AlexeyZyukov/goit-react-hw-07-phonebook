@@ -1,12 +1,20 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch, connect } from 'react-redux';
 import { filterContacts } from '../../redux/contacts/contacts-selectors';
+import {
+  fetchContacts,
+  deleteContact,
+} from '../../redux/contacts/contacts-operations';
 import contactsAction from '../../redux/contacts/contacts-actions';
 import styles from './contacts.module.css';
 
-export default function Contacts() {
+function Contacts() {
+  // const contacts = useSelector(filterContacts);
   const onFilter = useSelector(filterContacts);
   const dispatch = useDispatch();
   const onDelete = id => dispatch(contactsAction.deleteContact(id));
+
+  useEffect(() => dispatch(fetchContacts(), [dispatch]));
 
   return (
     <ul className={styles.contactList}>
@@ -24,3 +32,9 @@ export default function Contacts() {
     </ul>
   );
 }
+
+const mapDispatchToProps = dispatch => ({
+  fetchContacts: () => dispatch(fetchContacts()),
+});
+
+export default connect(null, mapDispatchToProps)(Contacts);

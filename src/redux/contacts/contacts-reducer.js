@@ -1,12 +1,19 @@
 // import { combineReducers } from 'redux';
 import { createReducer, combineReducers } from '@reduxjs/toolkit';
 import { fetchContacts } from './contacts-operations';
-import contactsAction from './contacts-actions';
+import { filterContacts } from './contacts-actions';
 
 const contactsReducer = createReducer([], {
-  [fetchContacts.addContact]: (state, action) => [...state, action.payload],
-  [fetchContacts.deleteContact]: (state, action) =>
-    state.filter(contact => contact.id !== action.payload),
+  [fetchContacts.fulfilled]: (_, { payload }) => payload,
+  // [addContact.fulfilled]: (state, { payload }) => [...state, payload],
+  // [deleteContact.fulfilled]: (state, { payload }) =>
+  //   state.filter(contact => contact.id !== payload),
+});
+
+const loadingReducer = createReducer(false, {
+  [fetchContacts.pending]: () => true,
+  [fetchContacts.fulfilled]: () => false,
+  [fetchContacts.rejected]: () => false,
 });
 
 const filterReducer = createReducer('', {
