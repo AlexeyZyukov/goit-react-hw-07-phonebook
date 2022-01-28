@@ -1,26 +1,50 @@
-// import { combineReducers } from 'redux';
-import { createReducer, combineReducers } from '@reduxjs/toolkit';
-import { fetchContacts } from './contacts-operations';
-import { filterContacts } from './contacts-actions';
+import { combineReducers } from 'redux';
+import { createReducer } from '@reduxjs/toolkit';
 
-const contactsReducer = createReducer([], {
-  [fetchContacts.fulfilled]: (_, { payload }) => payload,
-  // [addContact.fulfilled]: (state, { payload }) => [...state, payload],
-  // [deleteContact.fulfilled]: (state, { payload }) =>
-  //   state.filter(contact => contact.id !== payload),
+import {
+  addContactRequest,
+  addContactSuccess,
+  addContactError,
+  delContactRequest,
+  delContactSuccess,
+  delContactError,
+  fetchContactRequest,
+  fetchContactSuccess,
+  fetchContactError,
+  filterContacts,
+} from './contacts-actions';
+
+const items = createReducer([], {
+  [fetchContactSuccess]: (_, { payload }) => payload,
+  [addContactSuccess]: (state, { payload }) => {
+    let namesArray = state.map(item => item.name);
+    if (!namesArray.includes(payload.name)) {
+      return [...state, payload];
+    } else {
+      alert(`${payload.name} is already in contacts!`);
+      return state;
+    }
+  },
+  [delContactSuccess]: (state, { payload }) =>
+    state.filter(({ id }) => id !== payload),
 });
 
-const loadingReducer = createReducer(false, {
-  [fetchContacts.pending]: () => true,
-  [fetchContacts.fulfilled]: () => false,
-  [fetchContacts.rejected]: () => false,
+const filter = createReducer('', {
+  [filterContacts]: (_, { payload }) => payload,
 });
 
-const filterReducer = createReducer('', {
-  [fetchContacts.filterContacts]: (_, action) => action.payload,
+const loading = createReducer(false, {
+  [fetchContactRequest]: () => true,
+  [fetchContactSuccess]: () => false,
+  [fetchContactError]: () => false,
+
+  [addContactRequest]: () => true,
+  [addContactSuccess]: () => false,
+  [addContactError]: () => false,
+
+  [delContactRequest]: () => true,
+  [delContactSuccess]: () => false,
+  [delContactError]: () => false,
 });
 
-export default combineReducers({
-  contacts: contactsReducer,
-  filter: filterReducer,
-});
+export default combineReducers({ items, filter, loading });

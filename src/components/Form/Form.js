@@ -1,12 +1,16 @@
 import { useState } from 'react';
-import { connect } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
-import contactsActions from '../../redux/contacts/contacts-actions';
+import { useDispatch } from 'react-redux';
+
+import { contactsOperations } from '../../redux/contacts';
 import styles from './form.module.css';
 
-function Form({ onSubmit }) {
+export default function Form() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  const dispatch = useDispatch();
+  const onSubmit = (name, number) =>
+    dispatch(contactsOperations.addContact(name, number));
 
   const handleChange = evt => {
     const { name, value } = evt.currentTarget;
@@ -32,19 +36,16 @@ function Form({ onSubmit }) {
     onSubmit({
       name,
       number,
-      id: uuidv4(),
     });
     reset();
   }
 
-  // const contactId = uuidv4();
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <label className={styles.formLabel}>
         <p className={styles.inputName}>Name </p>
         <input
           className={styles.formInput}
-          // id={contactId}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -58,7 +59,6 @@ function Form({ onSubmit }) {
         <p className={styles.inputName}> Number</p>
         <input
           className={styles.formInput}
-          // id={contactId}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -74,10 +74,3 @@ function Form({ onSubmit }) {
     </form>
   );
 }
-
-const mapDispatchToProps = dispatch => ({
-  onSubmit: (name, number) =>
-    dispatch(contactsActions.addContact(name, number)),
-});
-
-export default connect(null, mapDispatchToProps)(Form);

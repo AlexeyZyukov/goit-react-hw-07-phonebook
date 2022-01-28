@@ -1,29 +1,22 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch, connect } from 'react-redux';
-import { filterContacts } from '../../redux/contacts/contacts-selectors';
-import {
-  fetchContacts,
-  deleteContact,
-} from '../../redux/contacts/contacts-operations';
-import contactsAction from '../../redux/contacts/contacts-actions';
-import styles from './contacts.module.css';
+import { contactsOperations, contactsSelectors } from '../../redux/contacts';
 
 function Contacts() {
-  // const contacts = useSelector(filterContacts);
-  const onFilter = useSelector(filterContacts);
+  const contacts = useSelector(contactsSelectors.filterContacts);
   const dispatch = useDispatch();
-  const onDelete = id => dispatch(contactsAction.deleteContact(id));
+  const onDelete = id => dispatch(contactsOperations.delContact(id));
 
-  useEffect(() => dispatch(fetchContacts(), [dispatch]));
+  useEffect(() => dispatch(contactsOperations.fetchContacts()), [dispatch]);
 
   return (
-    <ul className={styles.contactList}>
-      {onFilter.map(({ id, name, number }) => {
+    <ul className="contact-list">
+      {contacts.map(({ id, name, number }) => {
         return (
-          <li className={styles.contactListItem} key={id}>
+          <li className="contact-list__item" key={id}>
             <p>{name}</p>
             <p>{number}</p>
-            <button className="button" onClick={() => onDelete(id)} id={id}>
+            <button className="button" id={id} onClick={() => onDelete(id)}>
               Delete contact
             </button>
           </li>
@@ -32,9 +25,7 @@ function Contacts() {
     </ul>
   );
 }
-
 const mapDispatchToProps = dispatch => ({
-  fetchContacts: () => dispatch(fetchContacts()),
+  fetchContacts: () => dispatch(contactsOperations.fetchContacts()),
 });
-
 export default connect(null, mapDispatchToProps)(Contacts);
