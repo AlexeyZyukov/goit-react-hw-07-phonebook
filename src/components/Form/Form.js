@@ -55,7 +55,7 @@ export default function Form() {
           required
         />
       </label>
-      <label className="formLabel">
+      <label className={styles.formLabel}>
         <p className={styles.inputName}> Number</p>
         <input
           className={styles.formInput}

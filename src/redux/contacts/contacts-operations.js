@@ -13,7 +13,7 @@ import {
 
 const baseURL = 'https://61ed902f634f2f00170cec65.mockapi.io';
 const axiosInstance = axios.create({
-  baseURL: { baseURL },
+  baseURL: baseURL,
 });
 
 export const fetchContacts = () => dispatch => {

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import { contactsOperations, contactsSelectors } from '../../redux/contacts';
+import styles from './contacts.module.css';
 
 function Contacts() {
   const contacts = useSelector(contactsSelectors.filterContacts);
@@ -10,10 +11,10 @@ function Contacts() {
   useEffect(() => dispatch(contactsOperations.fetchContacts()), [dispatch]);
 
   return (
-    <ul className="contact-list">
+    <ul className={styles.contactList}>
       {contacts.map(({ id, name, number }) => {
         return (
-          <li className="contact-list__item" key={id}>
+          <li className={styles.contactListItem} key={id}>
             <p>{name}</p>
             <p>{number}</p>
             <button className="button" id={id} onClick={() => onDelete(id)}>
