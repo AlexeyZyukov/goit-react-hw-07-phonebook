@@ -59,7 +59,7 @@
     "redux-devtools-extension": "^2.13.9"
   },
   "lint-staged": {
-    "*.{js.jsx}": "eslint --cache --fix",
+    "*.{js,jsx}": "eslint --cache --fix",
     "*.{js,css,scss,md}": "prettier --write"
   }
 }
